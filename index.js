@@ -1,5 +1,7 @@
 const express = require('express')
 const { MongoClient } = require('mongodb');
+
+const ObjectId=require('mongodb').ObjectId;
 const cors = require('cors');
 require('dotenv').config();
 
@@ -29,6 +31,14 @@ async function run(){
           res.send(services);  
 
         });
+
+        //Get Signle Service
+        app.get('/services/:id', async(req,res)=>{
+         const id=req.params.id;
+         console.log('getting service by ',id);
+         const query={_id:ObjectId(id)};
+         const service=await servicesCollection.findOne(query);
+         res.json(service);
 
 
         // POST API 
